@@ -1,51 +1,58 @@
 from gensim.models import Word2Vec
 
-# Load trained model
-model = Word2Vec.load("../models/word2vec.model")
+# Initialize embedding model
+semantic_model = Word2Vec.load("../models/word2vec.model")
 
-print("Vocab size:", len(model.wv.index_to_key))
-print("Sample words:", model.wv.index_to_key[:30])
+vocab_size = len(semantic_model.wv.index_to_key)
+print(f"Loaded vocabulary with {vocab_size} terms")
+print(f"Sample terms: {semantic_model.wv.index_to_key[:30]}\n")
 
-# Find similar words
-def find_similar(word):
-    if word not in model.wv:
-        return f"'{word}' not in vocabulary"
+# Retrieve semantically similar terms
+def get_similar_terms(search_term):
+    if search_term not in semantic_model.wv:
+        return f"'{search_term}' not found in model vocabulary"
     
-    results = model.wv.most_similar(word, topn=5)
+    similar_matches = semantic_model.wv.most_similar(search_term, topn=5)
     
-    formatted = []
-    for word, score in results:
-        formatted.append(f"{word} ({score:.3f})")
+    formatted_results = []
+    for term, similarity_score in similar_matches:
+        formatted_results.append(f"{term} ({similarity_score:.3f})")
     
-    return formatted
+    return formatted_results
 
-# Word analogy (vector math)
-def word_math(a, b, c):
+# Perform vector-based word analogies
+def compute_analogy(base_word, exclude_word, target_word):
     try:
-        results = model.wv.most_similar(positive=[a, c], negative=[b], topn=5)
-        return results
-    except:
-        return "Error with given words"
-
-# CLI interface
+        analogy_results = semantic_model.wv.most_similar(
+            positive=[base_word, target_word], 
+            negative=[exclude_word], 
+            topn=5
+        )
+  Main CLI loop
 if __name__ == "__main__":
-    print("🔍 Word2Vec Semantic Search")
+    print("Semantic Search Interface")
+    print("=" * 40)
     
     while True:
-        word = input("\nEnter a word (or type 'exit'): ").strip().lower()
+        search_query = input("\nEnter search term (type 'quit' to exit): ").strip().lower()
         
-        if word == "exit":
+        if search_query == "quit":
             break
         
-        results = find_similar(word)
+        matching_terms = get_similar_terms(search_query)
 
-        print("\nSimilar words:")
+        print("\nMatching terms:")
         
-        if isinstance(results, str):
-            print(results)
+        if isinstance(matching_terms, str):
+            print(f"  {matching_terms}")
         else:
-            for w in results:
-                print(" -", w)
+            for match in matching_terms:
+                print(f"  - {match}")
+
+    print("\n[Vector Analogy Example]")
+    print("king - man + woman = ?")
+    analogy_result = compute_analogy("king", "man", "woman")
+    print(f"Result: {analogy_result}"
 
     print("\n📌 Vector Example:")
     print("king - man + woman =")

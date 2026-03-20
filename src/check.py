@@ -1,9 +1,13 @@
 import pandas as pd
 
-df = pd.read_csv("../data/FA-KES-Dataset.csv", encoding='latin1')
+# Load and inspect dataset
+news_data = pd.read_csv("../data/FA-KES-Dataset.csv", encoding='latin1')
 
-print("First 5 rows:\n")
-print(df.head())
+print("Dataset Preview:")
+print("=" * 50)
+print(news_data.head())
 
-print("\nColumns:\n")
-print(df.columns)
+print("\n\nAvailable Fields:")
+print("=" * 50)
+for idx, field in enumerate(news_data.columns, 1):
+    print(f"{idx}. {field}")

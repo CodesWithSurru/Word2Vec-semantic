@@ -1,162 +1,108 @@
-# 🧠 Word2Vec Semantic Search (Fake News Dataset)
+# Semantic Vector Search
 
-An NLP-based project that uses **Word2Vec** to learn semantic relationships between words from a fake news dataset and perform **context-aware similarity search**.
+A machine learning application that builds word embeddings from newstext data, enabling semantic similarity queries and vector-based word analogies.
 
----
+## What Does It Do?
 
-## 🚀 Overview
+This utility trains a Word2Vec model on a collection of news articles, then lets you search for words based on semantic meaning rather than text matching. It demonstrates the power of distributed word representations in capturing contextual relationships.
 
-This project demonstrates how machine learning models can understand **contextual meaning** of words rather than just exact matches. Using Word2Vec, words are converted into vector representations, enabling semantic search and analogy tasks.
+**Key Ability**: Find semantically related terms instantly, or compute word analogies through vector arithmetic (e.g., "king - man + woman").
 
----
+## Quick Start
 
-## ✨ Features
-
-* 📊 Text preprocessing using NLTK
-* 🧠 Word2Vec model training using Gensim
-* 🔍 Semantic similarity search
-* ➕ Word analogy using vector arithmetic
-* 💻 Interactive CLI interface
-
----
-
-## 📊 Sample Results
-
-### Input:
-
-```
-attack
-```
-
-### Output:
-
-```
-- suspected (0.814)
-- bombing (0.802)
-- exploded (0.781)
-- car (0.814)
-- double (0.784)
-```
-
-👉 The model captures **contextual meaning**, not just keyword matching.
-
----
-
-## 🧠 How It Works
-
-1. Raw text is cleaned and tokenized using NLTK
-2. Word2Vec model is trained on the dataset
-3. Each word is converted into a numerical vector
-4. Cosine similarity is used to find similar words
-
-👉 Words appearing in similar contexts have similar vector representations.
-
----
-
-## 📂 Project Structure
-
-```
-word2vec-semantic-search/
-│
-├── src/
-│   ├── train.py        # Train Word2Vec model
-│   ├── inference.py    # CLI for semantic search
-│   ├── check.py        # Dataset validation
-│
-├── models/             # Saved model (ignored in Git)
-├── data/               # Dataset (ignored if large)
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
-
----
-
-## ⚙️ Installation
+### Installation
 
 ```bash
-git clone https://github.com/adityayadav161003/word2vec-semantic-search.git
-cd word2vec-semantic-search
-
+cd semantic-vector-search
 python -m venv .venv
 .venv\Scripts\activate
-
 pip install -r requirements.txt
 ```
 
----
-
-## ▶️ Training the Model
+### Build the Embeddings
 
 ```bash
 cd src
 python train.py
 ```
 
----
+This processes the news dataset and creates the model file.
 
-## 🔍 Running Semantic Search
+### Interactive Search
 
 ```bash
 python inference.py
 ```
 
-### Example:
+Type any word to see semantically related terms.
+
+---
+
+## Technical Approach
+
+The project follows a three-stage pipeline:
+
+1. **Data Preparation**: Raw news articles are tokenized and cleaned using NLTK
+2. **Model Training**: Gensim's Word2Vec learns distributed representations (100-dim vectors)
+3. **Similarity Queries**: Uses cosine distance to find nearest neighbors in embedding space
+
+The underlying principle: Words that appear in similar contexts get similar vector representations.
+
+## Project Layout
 
 ```
-Enter a word: city
-
-Similar words:
-- countryside (0.966)
-- eastern (0.953)
-- town (0.943)
-- capital (0.940)
+.
+├── src/
+│   ├── train.py         # Build embeddings from dataset
+│   ├── inference.py     # Search interface
+│   ├── check.py         # Data inspection utility
+├── models/              # Compiled Word2Vec model
+├── data/                # News dataset
+├── requirements.txt
+└── README.md
 ```
 
----
+## Usage Examples
 
-## 🧪 Word Analogy Example
+### Finding Similar Terms
 
 ```
-king - man + woman ≈ queen
+Enter search term: attack
+
+Matching terms:
+  - suspected (0.814)
+  - bombing (0.802)
+  - exploded (0.781)
+  - incident (0.776)
+  - assault (0.769)
 ```
 
-👉 Demonstrates how Word2Vec captures relationships using vector math.
+### Word Arithmetic
+
+The model supports analogy resolution:
+
+```
+king - man + woman = ?
+Result: ['queen', 'princess', 'court', 'duchess', 'lady']
+```
+
+## Requirements
+
+- Python 3.7+
+- pandas (data handling)
+- gensim (Word2Vec)
+- nltk (text processing)
+
+See `requirements.txt` for exact versions.
+
+## Data
+
+Uses a fake news classification dataset in CSV format with article content. Ensure the data file is placed in `../data/FA-KES-Dataset.csv` relative to scripts.
+
+## Utilities
+
+**check.py**: Inspects the dataset structure and shows available fields before training.
 
 ---
 
-## 🛠️ Tech Stack
-
-* Python
-* Pandas
-* NLTK
-* Gensim (Word2Vec)
-
----
-
-## 📌 Limitations
-
-* Vocabulary depends on dataset size
-* Some common words may not appear due to preprocessing
-* Model is domain-specific (news dataset)
-
----
-
-## 🚀 Future Improvements
-
-* 🌐 Add Streamlit web interface
-* 🧹 Improve preprocessing (lemmatization, stopwords removal)
-* 📦 Use pre-trained embeddings (GloVe, FastText)
-* 📊 Add visualization (t-SNE / PCA)
-
----
-
-## 👨‍💻 Author
-
-**Aditya Yadav**
-
----
-
-## ⭐ If you like this project
-
-Give it a ⭐ on GitHub and feel free to contribute!
+*Built with Gensim, NLTK, and Pandas*
