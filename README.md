@@ -106,3 +106,15 @@ Uses a fake news classification dataset in CSV format with article content. Ensu
 ---
 
 *Built with Gensim, NLTK, and Pandas*
+
+---
+
+## Maintainer
+
+**Suryanshu Pal**
+
+This repository is part of my machine learning and NLP portfolio.
+I maintain this copy to explore Word2Vec embeddings, semantic
+similarity, and vector-based word analogies.
+
+For the original project history, see the existing Git commits.
